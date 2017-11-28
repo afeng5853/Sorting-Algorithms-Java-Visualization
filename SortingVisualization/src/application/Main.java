@@ -5,6 +5,10 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
+/**
+ * Sorting Visualization
+ * @author Alex Feng, Raymond Cheung
+ */
 
 public class Main extends Application {
 	@Override
