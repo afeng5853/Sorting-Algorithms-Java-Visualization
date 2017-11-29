@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import shapes.ArrayGUI;
 import shapes.ElementContainer;
 
 public class Main extends Application {
@@ -13,9 +14,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
     	BorderPane border = new BorderPane();
-	    HBox array = new HBox();
-	    array.getStyleClass().add("array");
-	    border.setTop(array);
+    	ArrayGUI array = new ArrayGUI();
+	    array.getHBox().getStyleClass().add("array");
+	    border.setTop(array.getHBox());
 
 	    ElementContainer one = new ElementContainer(array, 0, 0, 200, "one", 15);
 	    ElementContainer two = new ElementContainer(array, 0, 0, 200, "two", 15);
@@ -29,10 +30,12 @@ public class Main extends Application {
 
 	    //array.getChildren().add(pane);
 	    Scene scene = new Scene(border, 800, 600);
+	    array.setScene(scene);
 	    scene.getStylesheets().add("application/application.css");
 	  	stage.setScene(scene);
 	  	//stage.setMaximized(true);
 	  	stage.show();
+	  	array.swap(0, 1);
     }
 
 

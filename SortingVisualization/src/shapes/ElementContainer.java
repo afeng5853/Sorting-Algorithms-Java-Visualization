@@ -16,9 +16,10 @@ public class ElementContainer {
 	private Pane pane;
 	private Pane elementContainerPanel;
 
-	public ElementContainer(Pane pane, int x, int y, int size, String text, int fontSize) {
+	public ElementContainer(ArrayGUI array, int x, int y, int size, String text, int fontSize) {
 		// Double property to make font size relative to pane
 		this.fontSize = new SimpleDoubleProperty(fontSize);
+		this.pane = array.getHBox();
 
 		// StackPane container properties
 		StackPane eleContainer = new StackPane();
@@ -39,7 +40,6 @@ public class ElementContainer {
 	    this.y = y;
 	    this.setLabel(label);
 	    this.size = size;
-	    this.pane = pane;
 	    this.setElementContainerPanel(eleContainer);
 	}
 
