@@ -1,1 +1,16 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.label {
+	-fx-padding: 10px;
+}
+
+.element-container {
+	-fx-background-color: coral;
+	-fx-border-color: black;
+	-fx-border-width: 2px;
+}
+
+.array {
+	-fx-alignment: center;
+	-fx-padding: 6em;
+    -fx-border-insets: 6em;
+    -fx-background-insets: 6em;
+}

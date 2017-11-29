@@ -1,49 +1,43 @@
 package application;
-	
-import Lab3_2.ArrayMethods2;
-import javafx.application.Application; 
-import javafx.scene.Group; 
-import javafx.scene.Scene;
-import javafx.stage.Stage; 
-import javafx.scene.text.Text; 
-import javafx.scene.control.Button;
 
-public class Main extends Application { 
-	private Button btnMergeSort;
-   @Override 
-   public void start(Stage stage) {  
-	   //btnMergeSort.setLayoutX(50);
-	  //btnMergeSort.setLayoutY(50);
-	  //btnMergeSort.setText("hi");
-	   
-	   	String[] test1 = {"test", "zebra", "lol", "year"};
-	   	ArrayMethods2.mergeSort(test1);
-      //Creating a Text object 
-      Text text = new Text();      
-      
-      //Setting the text to be added. 
-    	  text.setText(test1[2]);
-       
-      //setting the position of the text 
-      text.setX(50); 
-      text.setY(50); 
-         
-      //Creating a Group object  
-      Group root = new Group(text);   
-               
-      //Creating a scene object 
-      Scene scene = new Scene(root, 600, 300);  
-     
-      
-      //Setting title to the Stage 
-      stage.setTitle("Sorting Visualizations"); 
-      //Adding scene to the stage 
-      stage.setScene(scene); 
-      //Displaying the contents of the stage 
-      stage.show(); 
-   }      
-   
-   public static void main(String args[]){ 
-      launch(args); 
-   } 
-} 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import shapes.ElementContainer;
+
+public class Main extends Application {
+
+    @Override
+    public void start(Stage stage) throws Exception {
+    	BorderPane border = new BorderPane();
+	    HBox array = new HBox();
+	    array.getStyleClass().add("array");
+	    border.setTop(array);
+
+	    ElementContainer one = new ElementContainer(array, 0, 0, 200, "one", 15);
+	    ElementContainer two = new ElementContainer(array, 0, 0, 200, "two", 15);
+	    ElementContainer three = new ElementContainer(array, 0, 0, 200, "three", 15);
+	    ElementContainer four = new ElementContainer(array, 0, 0, 200, "four", 15);
+	    ElementContainer five = new ElementContainer(array, 0, 0, 200, "five", 15);
+	    ElementContainer six = new ElementContainer(array, 0, 0, 200, "six", 15);
+	    ElementContainer seven = new ElementContainer(array, 0, 0, 200, "seven", 15);
+	    ElementContainer eight = new ElementContainer(array, 0, 0, 200, "eight", 15);
+	    ElementContainer nine = new ElementContainer(array, 0, 0, 200, "nine", 15);
+
+	    //array.getChildren().add(pane);
+	    Scene scene = new Scene(border, 800, 600);
+	    scene.getStylesheets().add("application/application.css");
+	  	stage.setScene(scene);
+	  	//stage.setMaximized(true);
+	  	stage.show();
+    }
+
+
+
+    public static void main(String args[]){
+        launch(args);
+    }
+}
