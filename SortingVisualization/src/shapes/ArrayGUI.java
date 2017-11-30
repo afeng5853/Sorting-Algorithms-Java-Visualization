@@ -166,6 +166,14 @@ public class ArrayGUI {
 		//this.timeline.setOnFinished(e -> reset());
 	}
 
+	public ElementContainer get(int i) {
+		return this.array.get(i);
+	}
+	
+	public int size() {
+		return this.array.size();
+	}
+	
 	private void swapBackEnd(int i, int j) {
 		ElementContainer temp = array.get(i);
 		array.set(i, array.get(j));

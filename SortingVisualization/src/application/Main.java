@@ -51,16 +51,16 @@ public class Main extends Application {
 	  	//stage.setMaximized(true);
 	  	stage.show();
 
-	  	partition(eleC, array, 0, eleC.size());
+	  	partition(array, 0, eleC.size());
 	  	array.play();
     }
 
-    public static void bubbleSort(ArrayList<ElementContainer> eleC, ArrayGUI array) {
+    public static void bubbleSort(ArrayGUI array) {
     	boolean swapped = true;
 	    while (swapped) {
 	       swapped = false;
-	       for(int i=1; i< eleC.size(); i++) {
-	           if(eleC.get(i).compareTo(eleC.get(i-1)) < 0) {
+	       for(int i=1; i< array.size(); i++) {
+	           if(array.get(i).compareTo(array.get(i-1)) < 0) {
 	        	   array.swap(i, i-1);
 	               swapped = true;
 	            }
@@ -68,33 +68,33 @@ public class Main extends Application {
 	    }
     }
 
-    private static int min(ArrayList<ElementContainer> eleC, int start, int end) {
-		if (eleC.size() == 0) {
+    private static int min(ArrayGUI array, int start, int end) {
+		if (array.size() == 0) {
 			return -1;
 		}
-		ElementContainer min = eleC.get(start);
+		ElementContainer min = array.get(start);
 		int minIdx = start;
 		for (int i = start + 1; i < end; i++) {
-			if (eleC.get(i).compareTo(min) < 0) {
-				min = eleC.get(i);
+			if (array.get(i).compareTo(min) < 0) {
+				min = array.get(i);
 				minIdx = i;
 			}
 		}
 		return minIdx;
 	}
 
-    public static void selectionSort(ArrayList<ElementContainer> eleC, ArrayGUI array) {
-		for (int i = 0; i < eleC.size(); i++) {
-			int minIdx = min(eleC, i, eleC.size());
+    public static void selectionSort(ArrayGUI array) {
+		for (int i = 0; i < array.size(); i++) {
+			int minIdx = min(array, i, array.size());
 			array.swap(i, minIdx);
 		}
 	}
 
-    public static void insertionSort(ArrayList<ElementContainer> eleC, ArrayGUI array) {
-		for (int i = 1; i < eleC.size(); i++) {
+    public static void insertionSort(ArrayGUI array) {
+		for (int i = 1; i < array.size(); i++) {
 			int j = i-1;
 			int k = i;
-			while (j != -1 && eleC.get(k).compareTo(eleC.get(j)) < 0) {
+			while (j != -1 && array.get(k).compareTo(array.get(j)) < 0) {
 				array.swap(k, j);
 				j--;
 				k--;
@@ -106,16 +106,16 @@ public class Main extends Application {
         launch(args);
     }
     
-    public static int partition(ArrayList<ElementContainer> eleC, ArrayGUI array, int a, int b) {
+    public static int partition(ArrayGUI array, int a, int b) {
 		// if list is empty
-		if (eleC.size() == 0) {
+		if (array.size() == 0) {
 			return -1;
 		}
-		ElementContainer pivot = eleC.get(a); // set pivot to first item
+		ElementContainer pivot = array.get(a); // set pivot to first item
 		int j = a; // current index to swap for items less than the pivot
 		int pivotIdx = a;
 		for (int i = a + 1; i < b; i++) {
-			if (eleC.get(i).compareTo(pivot) <= 0) {
+			if (array.get(i).compareTo(pivot) <= 0) {
 				// track pivot index 
 				if (pivotIdx == j) {
 					pivotIdx = i;
