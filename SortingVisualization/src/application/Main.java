@@ -4,21 +4,30 @@ import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import shapes.ArrayGUI;
 import shapes.ElementContainer;
+import buttons.ButtonBox;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
     	
-    	GridPane   grid   = new GridPane();
+    	HBox buttons = new HBox();
     	BorderPane border = new BorderPane();
     	HBox hbox = new HBox();
+    	
+    	ButtonBox btnBox = new ButtonBox(buttons);
+    	btnBox.addButton("Merge Sort");
+    	btnBox.addButton("Bubble Sort");
+    	btnBox.addButton("Selection Sort");
+    	btnBox.addButton("Insertion Sort");
+    	btnBox.addButton("Quick Sort");
 
 	    hbox.getStyleClass().add("array");
 	    border.setTop(hbox);
@@ -32,7 +41,11 @@ public class Main extends Application {
 	    ElementContainer seven = new ElementContainer(hbox, 0, 0, 200, "2", 10);
 	    ElementContainer eight = new ElementContainer(hbox, 0, 0, 200, "1", 10);
 	    ElementContainer nine = new ElementContainer(hbox, 0, 0, 200, "7", 10);
+	    
+	    buttons.getStyleClass().add("buttons");
 
+	    border.setBottom(buttons);
+	    
 	    ArrayList<ElementContainer> eleC = new ArrayList<>();
 	    eleC.add(one);
 	    eleC.add(two);

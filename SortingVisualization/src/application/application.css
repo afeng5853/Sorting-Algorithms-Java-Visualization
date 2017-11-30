@@ -16,3 +16,12 @@
     -fx-background-insets: 6em;
 
 }
+
+.buttons{
+	-fx-padding: 15px;
+	-fx-spacing: 2em;
+}
+
+.buttons Button{
+	-fx-padding: 5px;
+}
