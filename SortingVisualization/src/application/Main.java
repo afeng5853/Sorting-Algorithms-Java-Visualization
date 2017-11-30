@@ -20,7 +20,7 @@ public class Main extends Application {
 	    hbox.getStyleClass().add("array");
 	    border.setTop(hbox);
 
-	    ElementContainer one = new ElementContainer(hbox, 0, 0, 200, "6", 10);
+	    ElementContainer one = new ElementContainer(hbox, 0, 0, 200, "4", 10);
 	    ElementContainer two = new ElementContainer(hbox, 0, 0, 200, "2", 10);
 	    ElementContainer three = new ElementContainer(hbox, 0, 0, 200, "3", 10);
 	    ElementContainer four = new ElementContainer(hbox, 0, 0, 200, "3", 10);
@@ -51,7 +51,7 @@ public class Main extends Application {
 	  	//stage.setMaximized(true);
 	  	stage.show();
 
-	  	bubbleSort(eleC, array);
+	  	partition(eleC, array, 0, eleC.size());
 	  	array.play();
     }
 
@@ -105,4 +105,30 @@ public class Main extends Application {
     public static void main(String args[]){
         launch(args);
     }
+    
+    public static int partition(ArrayList<ElementContainer> eleC, ArrayGUI array, int a, int b) {
+		// if list is empty
+		if (eleC.size() == 0) {
+			return -1;
+		}
+		ElementContainer pivot = eleC.get(a); // set pivot to first item
+		int j = a; // current index to swap for items less than the pivot
+		int pivotIdx = a;
+		for (int i = a + 1; i < b; i++) {
+			if (eleC.get(i).compareTo(pivot) <= 0) {
+				// track pivot index 
+				if (pivotIdx == j) {
+					pivotIdx = i;
+				}
+				// swap pivot to latest index in the small partition
+				array.swap(i, j);
+				j++;
+			}
+			
+		}
+		// return pivot to correct location
+		array.swap(pivotIdx, j);
+		return j;
+	}
+
 }
