@@ -16,11 +16,13 @@ public class ElementContainer {
 	private int size;
 	private Pane pane;
 	private Pane eleContainerPanel;
+	private String text;
 
 	public ElementContainer(HBox array, int x, int y, int size, String text, int fontSize) {
 		// Double property to make font size relative to pane
 		this.fontSize = new SimpleDoubleProperty(fontSize);
 		this.pane = array;
+		this.setText(text);
 
 		// StackPane container properties
 		StackPane eleContainer = new StackPane();
@@ -102,5 +104,13 @@ public class ElementContainer {
 
 	public void setLabel(Label label) {
 		this.label = label;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 }

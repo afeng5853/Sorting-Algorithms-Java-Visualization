@@ -109,7 +109,6 @@ public class ArrayGUI {
 		double[] otherCoord = coordinates.get(j);
 		double translateX = otherCoord[X] - thisCoord[X];
 		double translateY = otherCoord[Y] - thisCoord[Y];
-		System.out.println(translateY);
 		translateCoord(i, translateX, translateY);
 		translateCoord(j, -translateX, translateY);
 		move(timeline, i, node1, duration);
@@ -129,7 +128,6 @@ public class ArrayGUI {
 		if (timelineIdx.get() >= timelines.size()) {
 			return;
 		}
-		System.out.println(timelineIdx.get());
 		Timeline currentT = timelines.get(timelineIdx.get());
 		currentT.play();
 		timelines.get(timelineIdx.getAndIncrement()).setOnFinished(e -> {
@@ -143,13 +141,13 @@ public class ArrayGUI {
 			firstSwap = false;
 		}
 		Timeline timeline = new Timeline();
-		bringOut(timeline, i, 1000);
-		bringOut(timeline, j, 1000);
+		bringOut(timeline, i, 200);
+		bringOut(timeline, j, 200);
 		printCoords();
-		switchPos(timeline, i, j, 2000);
+		switchPos(timeline, i, j, 400);
 		printCoords();
-		bringIn(timeline, i,3000);
-		bringIn(timeline, j, 3000);
+		bringIn(timeline, i, 600);
+		bringIn(timeline, j, 600);
 		swapBackEnd(i, j);
 		/*
 		Pane node1 = this.getArray().get(i).getEleContainerPanel();

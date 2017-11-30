@@ -20,15 +20,15 @@ public class Main extends Application {
 	    hbox.getStyleClass().add("array");
 	    border.setTop(hbox);
 
-	    ElementContainer one = new ElementContainer(hbox, 0, 0, 200, "1", 10);
+	    ElementContainer one = new ElementContainer(hbox, 0, 0, 200, "6", 10);
 	    ElementContainer two = new ElementContainer(hbox, 0, 0, 200, "2", 10);
 	    ElementContainer three = new ElementContainer(hbox, 0, 0, 200, "3", 10);
-	    ElementContainer four = new ElementContainer(hbox, 0, 0, 200, "4", 10);
+	    ElementContainer four = new ElementContainer(hbox, 0, 0, 200, "3", 10);
 	    ElementContainer five = new ElementContainer(hbox, 0, 0, 200, "5", 10);
-	    ElementContainer six = new ElementContainer(hbox, 0, 0, 200, "6", 10);
-	    ElementContainer seven = new ElementContainer(hbox, 0, 0, 200, "7", 10);
-	    ElementContainer eight = new ElementContainer(hbox, 0, 0, 200, "8", 10);
-	    ElementContainer nine = new ElementContainer(hbox, 0, 0, 200, "9", 10);
+	    ElementContainer six = new ElementContainer(hbox, 0, 0, 200, "8", 10);
+	    ElementContainer seven = new ElementContainer(hbox, 0, 0, 200, "2", 10);
+	    ElementContainer eight = new ElementContainer(hbox, 0, 0, 200, "1", 10);
+	    ElementContainer nine = new ElementContainer(hbox, 0, 0, 200, "7", 10);
 
 	    ArrayList<ElementContainer> eleC = new ArrayList<>();
 	    eleC.add(one);
@@ -50,12 +50,23 @@ public class Main extends Application {
 	  	stage.setResizable(false);
 	  	//stage.setMaximized(true);
 	  	stage.show();
-	  	array.swap(4, 6);
-	  	array.swap(3, 4);
+
+	  	bubbleSort(eleC, array);
 	  	array.play();
     }
 
-
+    public static void bubbleSort(ArrayList<ElementContainer> eleC, ArrayGUI array) {
+    	boolean swapped = true;
+	    while (swapped) {
+	       swapped = false;
+	       for(int i=1; i< eleC.size(); i++) {
+	           if(eleC.get(i).getText().compareTo(eleC.get(i-1).getText()) < 0) {
+	        	   array.swap(i, i-1);
+	               swapped = true;
+	            }
+	        }
+	    }
+    }
 
     public static void main(String args[]){
         launch(args);
