@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import shapes.ArrayGUI;
@@ -14,6 +15,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+    	
+    	GridPane   grid   = new GridPane();
     	BorderPane border = new BorderPane();
     	HBox hbox = new HBox();
 
@@ -51,7 +54,7 @@ public class Main extends Application {
 	  	//stage.setMaximized(true);
 	  	stage.show();
 
-	  	partition(array, 0, eleC.size());
+	  	quickSort(array, 0, eleC.size());
 	  	array.play();
     }
 
@@ -130,5 +133,17 @@ public class Main extends Application {
 		array.swap(pivotIdx, j);
 		return j;
 	}
+    
+	public static void quickSort(ArrayGUI arr, int i, int j) {
+		if (j - i <= 1) {
+			return; 
+		}
+		else {
+			int pivotIdx = partition(arr, i, j);
+			quickSort(arr, i, pivotIdx);
+			quickSort(arr, pivotIdx + 1, j);
+		}
+	}
+	
 
 }
