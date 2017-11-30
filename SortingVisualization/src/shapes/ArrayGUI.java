@@ -169,6 +169,10 @@ public class ArrayGUI {
 		ElementContainer temp = array.get(i);
 		array.set(i, array.get(j));
 		array.set(j, temp);
+
+		double[] temp2 = coordinates.get(i);
+		coordinates.set(i, coordinates.get(j));
+		coordinates.set(j, temp2);
 	}
 
 	public ArrayList<ElementContainer> getArray() {
