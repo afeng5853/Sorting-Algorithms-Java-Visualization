@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-public class ElementContainer {
+public class ElementContainer implements Comparable{
 	private DoubleProperty fontSize;
 	private int x;
 	private int y;
@@ -112,5 +112,15 @@ public class ElementContainer {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (this == o) return 0;
+
+		if (!(o instanceof ElementContainer))
+			throw new ClassCastException("An ElementContainer object expected.");
+
+		return this.getText().compareTo(((ElementContainer) o).getText());
 	}
 }

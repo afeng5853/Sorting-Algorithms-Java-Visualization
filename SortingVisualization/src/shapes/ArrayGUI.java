@@ -140,6 +140,9 @@ public class ArrayGUI {
 			initCoordinates();
 			firstSwap = false;
 		}
+		if (i == j) {
+			return;
+		}
 		Timeline timeline = new Timeline();
 		bringOut(timeline, i, 200);
 		bringOut(timeline, j, 200);

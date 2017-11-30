@@ -60,13 +60,47 @@ public class Main extends Application {
 	    while (swapped) {
 	       swapped = false;
 	       for(int i=1; i< eleC.size(); i++) {
-	           if(eleC.get(i).getText().compareTo(eleC.get(i-1).getText()) < 0) {
+	           if(eleC.get(i).compareTo(eleC.get(i-1)) < 0) {
 	        	   array.swap(i, i-1);
 	               swapped = true;
 	            }
 	        }
 	    }
     }
+
+    private static int min(ArrayList<ElementContainer> eleC, int start, int end) {
+		if (eleC.size() == 0) {
+			return -1;
+		}
+		ElementContainer min = eleC.get(start);
+		int minIdx = start;
+		for (int i = start + 1; i < end; i++) {
+			if (eleC.get(i).compareTo(min) < 0) {
+				min = eleC.get(i);
+				minIdx = i;
+			}
+		}
+		return minIdx;
+	}
+
+    public static void selectionSort(ArrayList<ElementContainer> eleC, ArrayGUI array) {
+		for (int i = 0; i < eleC.size(); i++) {
+			int minIdx = min(eleC, i, eleC.size());
+			array.swap(i, minIdx);
+		}
+	}
+
+    public static void insertionSort(ArrayList<ElementContainer> eleC, ArrayGUI array) {
+		for (int i = 1; i < eleC.size(); i++) {
+			int j = i-1;
+			int k = i;
+			while (j != -1 && eleC.get(k).compareTo(eleC.get(j)) < 0) {
+				array.swap(k, j);
+				j--;
+				k--;
+			}
+		}
+	}
 
     public static void main(String args[]){
         launch(args);
