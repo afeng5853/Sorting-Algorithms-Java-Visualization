@@ -18,24 +18,27 @@ public class Main extends Application {
 	    array.getHBox().getStyleClass().add("array");
 	    border.setTop(array.getHBox());
 
-	    ElementContainer one = new ElementContainer(array, 0, 0, 200, "one", 15);
-	    ElementContainer two = new ElementContainer(array, 0, 0, 200, "two", 15);
-	    ElementContainer three = new ElementContainer(array, 0, 0, 200, "three", 15);
-	    ElementContainer four = new ElementContainer(array, 0, 0, 200, "four", 15);
-	    ElementContainer five = new ElementContainer(array, 0, 0, 200, "five", 15);
-	    ElementContainer six = new ElementContainer(array, 0, 0, 200, "six", 15);
-	    ElementContainer seven = new ElementContainer(array, 0, 0, 200, "seven", 15);
-	    ElementContainer eight = new ElementContainer(array, 0, 0, 200, "eight", 15);
-	    ElementContainer nine = new ElementContainer(array, 0, 0, 200, "nine", 15);
+	    ElementContainer one = new ElementContainer(array, 0, 0, 200, "1", 10);
+	    ElementContainer two = new ElementContainer(array, 0, 0, 200, "2", 10);
+	    ElementContainer three = new ElementContainer(array, 0, 0, 200, "3", 10);
+	    ElementContainer four = new ElementContainer(array, 0, 0, 200, "4", 10);
+	    ElementContainer five = new ElementContainer(array, 0, 0, 200, "5", 10);
+	    ElementContainer six = new ElementContainer(array, 0, 0, 200, "6", 10);
+	    ElementContainer seven = new ElementContainer(array, 0, 0, 200, "7", 10);
+	    ElementContainer eight = new ElementContainer(array, 0, 0, 200, "8", 10);
+	    ElementContainer nine = new ElementContainer(array, 0, 0, 200, "9", 10);
 
 	    //array.getChildren().add(pane);
-	    Scene scene = new Scene(border, 800, 600);
+	    Scene scene = new Scene(border, 1280, 720);
 	    array.setScene(scene);
 	    scene.getStylesheets().add("application/application.css");
 	  	stage.setScene(scene);
+	  	stage.setResizable(false);
 	  	//stage.setMaximized(true);
 	  	stage.show();
-	  	array.swap(0, 1);
+	  	array.swap(4, 6);
+	  	array.swap(4, 6);
+	  	array.play();
     }
 
 

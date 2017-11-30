@@ -14,7 +14,7 @@ public class ElementContainer {
 	private Label label;
 	private int size;
 	private Pane pane;
-	private Pane elementContainerPanel;
+	private Pane eleContainerPanel;
 
 	public ElementContainer(ArrayGUI array, int x, int y, int size, String text, int fontSize) {
 		// Double property to make font size relative to pane
@@ -27,22 +27,31 @@ public class ElementContainer {
 
 	    // Label properties
 	    Label label = new Label(text);
+	    //label.setPrefHeight(size);
+	    label.setPrefWidth(size);
 
 	    // Binding font size
-	    this.fontSize.bind(pane.widthProperty().add(pane.heightProperty()).divide(50));
+	    this.fontSize.bind(pane.widthProperty().add(pane.heightProperty()).divide(75));
 	    pane.styleProperty().bind(Bindings.concat("-fx-font-size: ", this.fontSize.asString(), ";"));
 
 	    // add elements to app
 	    eleContainer.getChildren().addAll(label);
 	    pane.getChildren().add(eleContainer);
 
+	    // add this to the ArrayGUI
+	    array.getArray().add(this);
+
 	    this.x = x;
 	    this.y = y;
 	    this.setLabel(label);
 	    this.size = size;
-	    this.setElementContainerPanel(eleContainer);
+	    this.setEleContainerPanel(eleContainer);
 	}
 
+	@Override
+	public String toString() {
+		return this.getLabel().getText();
+	}
 
 	public int getX() {
 		return x;
@@ -77,13 +86,13 @@ public class ElementContainer {
 	}
 
 
-	public Pane getElementContainerPanel() {
-		return elementContainerPanel;
+	public Pane getEleContainerPanel() {
+		return eleContainerPanel;
 	}
 
 
-	public void setElementContainerPanel(Pane elementContainerPanel) {
-		this.elementContainerPanel = elementContainerPanel;
+	public void setEleContainerPanel(Pane elementContainerPanel) {
+		this.eleContainerPanel = elementContainerPanel;
 	}
 
 

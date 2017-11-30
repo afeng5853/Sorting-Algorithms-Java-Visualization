@@ -6,6 +6,7 @@
 	-fx-background-color: coral;
 	-fx-border-color: black;
 	-fx-border-width: 2px;
+	-fx-text-alignment: center;
 }
 
 .array {
@@ -13,4 +14,5 @@
 	-fx-padding: 6em;
     -fx-border-insets: 6em;
     -fx-background-insets: 6em;
+
 }
