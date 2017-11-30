@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -16,10 +17,10 @@ public class ElementContainer {
 	private Pane pane;
 	private Pane eleContainerPanel;
 
-	public ElementContainer(ArrayGUI array, int x, int y, int size, String text, int fontSize) {
+	public ElementContainer(HBox array, int x, int y, int size, String text, int fontSize) {
 		// Double property to make font size relative to pane
 		this.fontSize = new SimpleDoubleProperty(fontSize);
-		this.pane = array.getHBox();
+		this.pane = array;
 
 		// StackPane container properties
 		StackPane eleContainer = new StackPane();
@@ -38,8 +39,6 @@ public class ElementContainer {
 	    eleContainer.getChildren().addAll(label);
 	    pane.getChildren().add(eleContainer);
 
-	    // add this to the ArrayGUI
-	    array.getArray().add(this);
 
 	    this.x = x;
 	    this.y = y;

@@ -11,22 +11,47 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class ArrayGUI {
-	private HBox hBox = new HBox();
 	private Scene scene;
 	private static final int X = 0;
 	private static final int Y = 1;
 	private ArrayList<Timeline> timelines;
 	private ArrayList<ElementContainer> array;
 	private AtomicInteger timelineIdx;
+	private ArrayList<double[]> coordinates;
+	private boolean firstSwap = true;
 
-	public ArrayGUI() {
+	public ArrayGUI(ArrayList<ElementContainer> array) {
 		this.timelines = new ArrayList<Timeline>();
-		this.array = new ArrayList<>();
+		this.array = array;
+		this.coordinates = new ArrayList<>();
 		this.timelineIdx = new AtomicInteger();
+
 	}
+
+	private void initCoordinates() {
+		for (int i = 0; i < array.size(); i++) {
+			Node node = this.getArray().get(i).getEleContainerPanel();
+			coordinates.add(this.getCoord(node));
+		}
+	}
+
+	private void printCoords() {
+		for (double[] coord : coordinates) {
+			System.out.print("[" + coord[X] + " " + coord[Y] + "] ");
+		}
+	}
+
+	private void translateCoord(int i, double x, double y) {
+		double[] currentCoord = coordinates.get(i);
+		currentCoord[X] += x;
+		currentCoord[Y] += y;
+	}
+
 
 	public Scene getScene() {
 		return scene;
@@ -36,69 +61,38 @@ public class ArrayGUI {
 		this.scene = scene;
 	}
 
-	public HBox getHBox() {
-		return hBox;
-	}
-
-	public void setHBox(HBox hBox) {
-		this.hBox = hBox;
-	}
-
-	public ObservableList<Node> getChildren() {
-		return hBox.getChildren();
-	}
-
-	private void incrementTime(int time) {
-		this.time += time;
-	}
-
-	private void move(Timeline timeline, Node node, double x, double y, int duration) {
+	private void move(Timeline timeline, int idx, Node node, int duration) {
+		double[] origC = getCoord(node);
+		double[] trueC = coordinates.get(idx);
+		double correctionX = trueC[X] - origC[X];
+		double correctionY = trueC[Y] - origC[Y];
 		timeline.getKeyFrames().add(
 				new KeyFrame(new Duration(duration),
-						new KeyValue(node.translateXProperty(), x),
-						new KeyValue(node.translateYProperty(), y))
+						new KeyValue(node.translateXProperty(), correctionX),
+						new KeyValue(node.translateYProperty(), correctionY)
+				)
 		);
 	}
 
-	private void move(Timeline timeline, Node node, double[] coord, int duration) {
-		timeline.getKeyFrames().add(
-				new KeyFrame(new Duration(duration),
-						new KeyValue(node.translateXProperty(), coord[X]),
-						new KeyValue(node.translateYProperty(), coord[Y]))
-		);
+
+	private void moveToCoord(Timeline timeline, int i, int j, Node node, int duration) {
+
 	}
 
-	private void moveToCoord(Timeline timeline,Node node, double x, double y, int duration) {
-		double[] coord = getCoord(node);
-		double translateX = x - coord[X];
-		double translateY = y - coord[Y];
-		move(timeline, node, translateX, translateY, duration);
+	private void bringOut(Timeline timeline, int idx, int duration) {
+		double translateY = this.scene == null ? 100 : this.scene.getHeight() * 0.1;
+		Node node = this.getArray().get(idx).getEleContainerPanel();
+		//double translateX = coordinates.get(idx)[X] - getCoord(node)[X];
+		translateCoord(idx, 0, translateY);
+		move(timeline, idx, node, duration);
 	}
 
-	private void moveToCoord(Timeline timeline, Node node, double[] coord, int duration) {
-		double[] thisCoord = getCoord(node);
-		double translateX = coord[X] - thisCoord[X];
-		double translateY = coord[Y] - thisCoord[Y];
-		move(timeline, node, translateX, translateY, duration);
-	}
-
-	private void bringOut(Timeline timeline, int i, int duration) {
-		double translation = this.scene == null ? 100 : this.scene.getHeight() * 0.1;
-		Node node = this.getArray().get(i).getEleContainerPanel();
-		move(timeline, node, 0, translation, duration);
-	}
-
-	// move these helper functions
-	private double[] calculateCenter(double x1, double y1, double x2, double y2) {
-		double centerX = (x1 + x2) / 2;
-		double centerY = (y1 + y2) / 2;
-		return new double[] {centerX, centerY};
-	}
-
-	private double[] calculateCenter(double[] vec1, double[] vec2) {
-		double centerX = (vec1[X] + vec2[X]) / 2;
-		double centerY = (vec1[Y] + vec2[Y]) / 2;
-		return new double[] {centerX, centerY};
+	private void bringIn(Timeline timeline, int idx, int duration) {
+		double translateY = this.scene == null ? 100 : this.scene.getHeight() * 0.1;
+		Node node = this.getArray().get(idx).getEleContainerPanel();
+		//double translateX = coordinates.get(idx)[X] - getCoord(node)[X];
+		translateCoord(idx, 0, -translateY);
+		move(timeline, idx, node, duration);
 	}
 
 	private double[] getCoord(Node node) {
@@ -111,10 +105,15 @@ public class ArrayGUI {
 	private void switchPos(Timeline timeline, int i, int j, int duration) {
 		Node node1 = this.getArray().get(i).getEleContainerPanel();
 		Node node2 = this.getArray().get(j).getEleContainerPanel();
-		double[] node1Coord = getCoord(node1);
-		double[] node2Coord = getCoord(node2);
-		moveToCoord(timeline, node1, node2Coord, duration);
-		moveToCoord(timeline, node2, node1Coord, duration);
+		double[] thisCoord = coordinates.get(i);
+		double[] otherCoord = coordinates.get(j);
+		double translateX = otherCoord[X] - thisCoord[X];
+		double translateY = otherCoord[Y] - thisCoord[Y];
+		System.out.println(translateY);
+		translateCoord(i, translateX, translateY);
+		translateCoord(j, -translateX, translateY);
+		move(timeline, i, node1, duration);
+		move(timeline, j, node2, duration);
 	}
 
 	@Override
@@ -133,15 +132,35 @@ public class ArrayGUI {
 		System.out.println(timelineIdx.get());
 		Timeline currentT = timelines.get(timelineIdx.get());
 		currentT.play();
-		timelines.get(timelineIdx.getAndIncrement()).setOnFinished(e -> play());
+		timelines.get(timelineIdx.getAndIncrement()).setOnFinished(e -> {
+			play();
+		});
 	}
 
 	public void swap(int i, int j) {
+		if (firstSwap) {
+			initCoordinates();
+			firstSwap = false;
+		}
 		Timeline timeline = new Timeline();
 		bringOut(timeline, i, 1000);
 		bringOut(timeline, j, 1000);
+		printCoords();
 		switchPos(timeline, i, j, 2000);
+		printCoords();
+		bringIn(timeline, i,3000);
+		bringIn(timeline, j, 3000);
 		swapBackEnd(i, j);
+		/*
+		Pane node1 = this.getArray().get(i).getEleContainerPanel();
+		Pane node2 = this.getArray().get(j).getEleContainerPanel();
+		timeline.getKeyFrames().add(
+				new KeyFrame(new Duration(2000),
+
+						new KeyValue(node2.layoutXProperty(), node2.getLayoutX() + node2.getTranslateX()),
+						new KeyValue(node2.layoutYProperty(), node2.getLayoutY() + node2.getTranslateY())
+				)
+		);*/
 		timelines.add(timeline);
 		//this.timeline.setOnFinished(e -> reset());
 	}
