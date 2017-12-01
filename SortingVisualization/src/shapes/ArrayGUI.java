@@ -22,6 +22,8 @@ public class ArrayGUI {
 	private AtomicInteger timelineIdx;
 	private ArrayList<double[]> coordinates;
 	private boolean firstSwap = true;
+	private Timeline currentTimeline;
+	private double rate = 1;
 
 	public ArrayGUI(ArrayList<ElementContainer> array) {
 		this.timelines = new ArrayList<Timeline>();
@@ -123,14 +125,40 @@ public class ArrayGUI {
 	}
 
 	public void play() {
-		if (timelineIdx.get() >= timelines.size()) {
+		if (timelineIdx.get() < 0 || timelineIdx.get() >= timelines.size()) {
 			return;
 		}
 		Timeline currentT = timelines.get(timelineIdx.get());
-		currentT.play();
-		timelines.get(timelineIdx.getAndIncrement()).setOnFinished(e -> {
-			play();
-		});
+		currentT.setRate(this.rate);
+		if (this.rate > 0) {
+			this.currentTimeline = currentT;
+			currentT.play();
+			timelines.get(timelineIdx.getAndIncrement()).setOnFinished(e -> {
+				play();
+			});
+		} else {
+			this.currentTimeline = currentT;
+			currentT.play();
+			timelines.get(timelineIdx.getAndDecrement()).setOnFinished(e -> {
+				play();
+			});
+		}
+	}
+
+	public void pause() {
+		this.currentTimeline.pause();
+	}
+
+	public void resume() {
+		this.currentTimeline.play();
+	}
+
+	public void forward() {
+		this.rate = 1;
+	}
+
+	public void reverse() {
+		this.rate = -1;
 	}
 
 	public void swap(int i, int j) {
@@ -144,9 +172,7 @@ public class ArrayGUI {
 		Timeline timeline = new Timeline();
 		bringOut(timeline, i, 200);
 		bringOut(timeline, j, 200);
-		printCoords();
 		switchPos(timeline, i, j, 400);
-		printCoords();
 		bringIn(timeline, i, 600);
 		bringIn(timeline, j, 600);
 		swapBackEnd(i, j);
@@ -219,4 +245,15 @@ public class ArrayGUI {
 		timelines.add(tl);
 	}
 
+	public double getTimelineDuration() {
+		double sum = 0;
+		for (Timeline t : this.timelines) {
+			sum += t.getTotalDuration().toMillis();
+		}
+		return sum;
+	}
+
+	public void resetTimelines() {
+		this.timelines = new ArrayList<>();
+	}
 }

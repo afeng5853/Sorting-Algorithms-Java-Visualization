@@ -22,13 +22,7 @@ public class Main extends Application {
     	HBox hbox = new HBox();
 
     	ButtonBox btnBox = new ButtonBox(buttons);
-    	/*
-    	btnBox.addButton("Merge Sort");
-    	btnBox.addButton("Bubble Sort");
-    	btnBox.addButton("Selection Sort");
-    	btnBox.addButton("Insertion Sort");
-    	btnBox.addButton("Quick Sort");
-    	*/
+    	buttons.getStyleClass().add("buttons");
 
 	    hbox.getStyleClass().add("array");
 	    border.setTop(hbox);
@@ -43,9 +37,9 @@ public class Main extends Application {
 	    ElementContainer eight = new ElementContainer(hbox, 0, 0, 200, "boardroom", 10);
 	    ElementContainer nine = new ElementContainer(hbox, 0, 0, 200, "ghostly", 10);
 
-	    buttons.getStyleClass().add("buttons");
 
-	    border.setBottom(buttons);
+
+
 
 	    ArrayList<ElementContainer> eleC = new ArrayList<>();
 	    eleC.add(one);
@@ -58,6 +52,11 @@ public class Main extends Application {
 	    eleC.add(eight);
 	    eleC.add(nine);
 	    ArrayGUI array = new ArrayGUI(eleC);
+	    btnBox.addButton(array, "Pause");
+	    btnBox.addButton(array, "Resume");
+	    btnBox.addButton(array, "Forward");
+	    btnBox.addButton(array, "Reverse");
+	    border.setBottom(buttons);
 
 	    //array.getChildren().add(pane);
 	    Scene scene = new Scene(border, 1280, 720);
@@ -68,6 +67,7 @@ public class Main extends Application {
 	  	//stage.setMaximized(true);
 	  	stage.show();
 	  	quickSort(array, 0, array.size());
+	  	System.out.println(array.getTimelineDuration());
 	  	array.play();
     }
 

@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import shapes.ArrayGUI;
 import application.Main;
 
 public class ButtonBox {
@@ -13,19 +14,21 @@ public class ButtonBox {
 		this.parent = parent;
 	}
 
-	public void addButton(String name, String sortType) {
+	public void addButton(ArrayGUI array, String name) {
+		//testing only
 		Button btn = new Button(name);
-		btn.setOnAction(new EventHandler<ActionEvent>(){
+		if (name.equals("Pause")) {
+			btn.setOnAction(e -> array.pause());
+		} else if (name.equals("Resume")) {
+			btn.setOnAction(e -> array.resume());
+		} else if (name.equals("Forward")) {
+			btn.setOnAction(e -> array.forward());
+		} else if (name.equals("Reverse")) {
+			btn.setOnAction(e -> array.reverse());
+		}
 
-	        @Override
-	        public void handle(ActionEvent event) {
-	            //Main.quickSort(, 0, );
-	        }
-	    });
-
-	    ;
 		this.parent.getChildren().add(btn);
 	}
-	
-	
+
+
 }
