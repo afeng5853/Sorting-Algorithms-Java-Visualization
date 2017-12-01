@@ -70,9 +70,6 @@ public class Main extends Application {
        BarChart bc = new BarChart(xAxis, yAxis);
        bc.setTitle("Run Time");
 
-	  	quickSort(array, 0, array.size());
-	  	System.out.println(array.getTimelineDuration());
-	  	array.play();
        //Prepare XYChart.Series objects by setting data       
        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
        series1.setName("Merge Sort");
@@ -88,6 +85,9 @@ public class Main extends Application {
 	  	stage.setResizable(false);
 	  	//stage.setMaximized(true);
 	  	stage.show();
+	  	quickSort(array, 0, array.size());
+	  	System.out.println(array.getTimelineDuration());
+	  	array.play();
     }
 
     public static void bubbleSort(ArrayGUI array) {
