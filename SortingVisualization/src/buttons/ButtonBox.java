@@ -30,7 +30,6 @@ public class ButtonBox {
 		} else if (name.equals("Faster")) {
 			btn.setOnAction(e -> array.faster());
 		}
-
 		this.parent.getChildren().add(btn);
 	}
 

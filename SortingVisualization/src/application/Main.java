@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import buttons.ButtonBox;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import shapes.ArrayGUI;
 import shapes.ElementContainer;
@@ -20,13 +25,13 @@ public class Main extends Application {
     	HBox buttons = new HBox();
     	BorderPane border = new BorderPane();
     	HBox hbox = new HBox();
-
+    	
     	ButtonBox btnBox = new ButtonBox(buttons);
     	buttons.getStyleClass().add("buttons");
 
 	    hbox.getStyleClass().add("array");
 	    border.setTop(hbox);
-
+	    
 	    ElementContainer one = new ElementContainer(hbox, 0, 0, 200, "estate", 10);
 	    ElementContainer two = new ElementContainer(hbox, 0, 0, 200, "defector", 10);
 	    ElementContainer three = new ElementContainer(hbox, 0, 0, 200, "actuality", 10);
@@ -56,7 +61,25 @@ public class Main extends Application {
 	    btnBox.addButton(array, "Faster");
 	    btnBox.addButton(array, "Slower");
 	    border.setBottom(buttons);
+	    
+    	//bar chart
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+       xAxis.setLabel("Sort Type");       
+       yAxis.setLabel("Time (s)");
+       BarChart bc = new BarChart(xAxis, yAxis);
+       bc.setTitle("Run Time");
 
+	  	quickSort(array, 0, array.size());
+	  	System.out.println(array.getTimelineDuration());
+	  	array.play();
+       //Prepare XYChart.Series objects by setting data       
+       XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+       series1.setName("Merge Sort");
+       series1.getData().add(new XYChart.Data<>("Merge Sort", array.getTimelineDuration()));
+       bc.getData().add(series1);
+	    border.setRight(bc);
+       
 	    //array.getChildren().add(pane);
 	    Scene scene = new Scene(border, 1280, 720);
 	    array.setScene(scene);
@@ -65,9 +88,6 @@ public class Main extends Application {
 	  	stage.setResizable(false);
 	  	//stage.setMaximized(true);
 	  	stage.show();
-	  	quickSort(array, 0, array.size());
-	  	System.out.println(array.getTimelineDuration());
-	  	array.play();
     }
 
     public static void bubbleSort(ArrayGUI array) {
