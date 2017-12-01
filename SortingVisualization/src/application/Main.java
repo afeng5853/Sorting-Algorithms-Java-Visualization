@@ -2,50 +2,51 @@ package application;
 
 import java.util.ArrayList;
 
+import buttons.ButtonBox;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import shapes.ArrayGUI;
 import shapes.ElementContainer;
-import buttons.ButtonBox;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-    	
+
     	HBox buttons = new HBox();
     	BorderPane border = new BorderPane();
     	HBox hbox = new HBox();
-    	
+
     	ButtonBox btnBox = new ButtonBox(buttons);
+    	/*
     	btnBox.addButton("Merge Sort");
     	btnBox.addButton("Bubble Sort");
     	btnBox.addButton("Selection Sort");
     	btnBox.addButton("Insertion Sort");
     	btnBox.addButton("Quick Sort");
+    	*/
 
 	    hbox.getStyleClass().add("array");
 	    border.setTop(hbox);
 
-	    ElementContainer one = new ElementContainer(hbox, 0, 0, 200, "4", 10);
-	    ElementContainer two = new ElementContainer(hbox, 0, 0, 200, "2", 10);
-	    ElementContainer three = new ElementContainer(hbox, 0, 0, 200, "3", 10);
-	    ElementContainer four = new ElementContainer(hbox, 0, 0, 200, "3", 10);
-	    ElementContainer five = new ElementContainer(hbox, 0, 0, 200, "5", 10);
-	    ElementContainer six = new ElementContainer(hbox, 0, 0, 200, "8", 10);
-	    ElementContainer seven = new ElementContainer(hbox, 0, 0, 200, "2", 10);
-	    ElementContainer eight = new ElementContainer(hbox, 0, 0, 200, "1", 10);
-	    ElementContainer nine = new ElementContainer(hbox, 0, 0, 200, "7", 10);
-	    
+	    ElementContainer one = new ElementContainer(hbox, 0, 0, 200, "estate", 10);
+	    ElementContainer two = new ElementContainer(hbox, 0, 0, 200, "defector", 10);
+	    ElementContainer three = new ElementContainer(hbox, 0, 0, 200, "actuality", 10);
+	    ElementContainer four = new ElementContainer(hbox, 0, 0, 200, "neurotic", 10);
+	    ElementContainer five = new ElementContainer(hbox, 0, 0, 200, "bananas", 10);
+	    ElementContainer six = new ElementContainer(hbox, 0, 0, 200, "cholera", 10);
+	    ElementContainer seven = new ElementContainer(hbox, 0, 0, 200, "feudal", 10);
+	    ElementContainer eight = new ElementContainer(hbox, 0, 0, 200, "boardroom", 10);
+	    ElementContainer nine = new ElementContainer(hbox, 0, 0, 200, "ghostly", 10);
+
 	    buttons.getStyleClass().add("buttons");
 
 	    border.setBottom(buttons);
-	    
+
 	    ArrayList<ElementContainer> eleC = new ArrayList<>();
 	    eleC.add(one);
 	    eleC.add(two);
@@ -66,8 +67,7 @@ public class Main extends Application {
 	  	stage.setResizable(false);
 	  	//stage.setMaximized(true);
 	  	stage.show();
-
-	  	quickSort(array, 0, eleC.size());
+	  	insertionSort(array);
 	  	array.play();
     }
 
@@ -76,10 +76,14 @@ public class Main extends Application {
 	    while (swapped) {
 	       swapped = false;
 	       for(int i=1; i< array.size(); i++) {
+	    	   Label marker1 = array.mark(i, "red");
+	    	   Label marker2 = array.mark(i - 1, "red");
 	           if(array.get(i).compareTo(array.get(i-1)) < 0) {
 	        	   array.swap(i, i-1);
 	               swapped = true;
 	            }
+	           array.unmark(marker1);
+	           array.unmark(marker2);
 	        }
 	    }
     }
@@ -90,38 +94,52 @@ public class Main extends Application {
 		}
 		ElementContainer min = array.get(start);
 		int minIdx = start;
+		Label tempMinLabel = null;
 		for (int i = start + 1; i < end; i++) {
+			Label tempLabel = array.mark(i, "orange");
 			if (array.get(i).compareTo(min) < 0) {
 				min = array.get(i);
 				minIdx = i;
+				array.unmark(tempMinLabel);
+				tempMinLabel = array.mark(minIdx, "yellow");
 			}
+			array.unmark(tempLabel);
 		}
+		array.unmark(tempMinLabel);
 		return minIdx;
 	}
 
     public static void selectionSort(ArrayGUI array) {
-		for (int i = 0; i < array.size(); i++) {
+		for (int i = 0; i < array.size() - 1; i++) {
+			Label tempLabel = array.mark(i, "red");
 			int minIdx = min(array, i, array.size());
 			array.swap(i, minIdx);
+			array.unmark(tempLabel);
 		}
 	}
 
     public static void insertionSort(ArrayGUI array) {
 		for (int i = 1; i < array.size(); i++) {
+			Label tempLabel = array.mark(i, "red");
 			int j = i-1;
 			int k = i;
 			while (j != -1 && array.get(k).compareTo(array.get(j)) < 0) {
+				Label marker1 = array.mark(j, "red");
+				Label marker2 = array.mark(k, "red");
 				array.swap(k, j);
+				array.unmark(marker1);
+				array.unmark(marker2);
 				j--;
 				k--;
 			}
+			array.unmark(tempLabel);
 		}
 	}
 
     public static void main(String args[]){
         launch(args);
     }
-    
+
     public static int partition(ArrayGUI array, int a, int b) {
 		// if list is empty
 		if (array.size() == 0) {
@@ -132,7 +150,7 @@ public class Main extends Application {
 		int pivotIdx = a;
 		for (int i = a + 1; i < b; i++) {
 			if (array.get(i).compareTo(pivot) <= 0) {
-				// track pivot index 
+				// track pivot index
 				if (pivotIdx == j) {
 					pivotIdx = i;
 				}
@@ -140,16 +158,16 @@ public class Main extends Application {
 				array.swap(i, j);
 				j++;
 			}
-			
+
 		}
 		// return pivot to correct location
 		array.swap(pivotIdx, j);
 		return j;
 	}
-    
+
 	public static void quickSort(ArrayGUI arr, int i, int j) {
 		if (j - i <= 1) {
-			return; 
+			return;
 		}
 		else {
 			int pivotIdx = partition(arr, i, j);
@@ -157,6 +175,6 @@ public class Main extends Application {
 			quickSort(arr, pivotIdx + 1, j);
 		}
 	}
-	
+
 
 }

@@ -3,7 +3,7 @@
 }
 
 .element-container {
-	-fx-background-color: coral;
+	-fx-background-color: white;
 	-fx-border-color: black;
 	-fx-border-width: 2px;
 	-fx-text-alignment: center;

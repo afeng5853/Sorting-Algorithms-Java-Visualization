@@ -10,9 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Label;
 import javafx.util.Duration;
 
 public class ArrayGUI {
@@ -169,11 +167,11 @@ public class ArrayGUI {
 	public ElementContainer get(int i) {
 		return this.array.get(i);
 	}
-	
+
 	public int size() {
 		return this.array.size();
 	}
-	
+
 	private void swapBackEnd(int i, int j) {
 		ElementContainer temp = array.get(i);
 		array.set(i, array.get(j));
@@ -186,6 +184,31 @@ public class ArrayGUI {
 
 	public ArrayList<ElementContainer> getArray() {
 		return array;
+	}
+
+	public Label mark(int i, String color) {
+		Label tempLabel = new Label();
+		tempLabel.setStyle("-fx-background-color:" + color + ";" +
+				"-fx-opacity: 0" + ";");
+
+		ElementContainer ec = this.get(i);
+		ObservableList<Node> childNodes = ec.getEleContainerPanel().getChildren();
+		childNodes.add(tempLabel);
+		Label label = (Label) ec.getEleContainerPanel().getChildren().get(0);
+		tempLabel.prefWidthProperty().bind(label.prefWidthProperty());
+		Timeline tl = new Timeline(
+	            new KeyFrame(new Duration(1), new KeyValue(tempLabel.opacityProperty(), 0.7)));
+		timelines.add(tl);
+		return tempLabel;
+	}
+
+	public void unmark(Label tempLabel) {
+		if (tempLabel == null) {
+			return;
+		}
+		Timeline tl = new Timeline(
+	            new KeyFrame(new Duration(300), new KeyValue(tempLabel.opacityProperty(), 0)));
+		timelines.add(tl);
 	}
 
 }
