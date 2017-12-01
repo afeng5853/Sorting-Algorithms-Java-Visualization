@@ -211,4 +211,12 @@ public class ArrayGUI {
 		timelines.add(tl);
 	}
 
+	public void unmark(int i) {
+		ElementContainer ec = this.get(i);
+		Label tempLabel = (Label) ec.getEleContainerPanel().getChildren().get(1);
+		Timeline tl = new Timeline(
+	            new KeyFrame(new Duration(300), new KeyValue(tempLabel.opacityProperty(), 0)));
+		timelines.add(tl);
+	}
+
 }

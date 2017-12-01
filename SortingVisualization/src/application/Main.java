@@ -67,7 +67,7 @@ public class Main extends Application {
 	  	stage.setResizable(false);
 	  	//stage.setMaximized(true);
 	  	stage.show();
-	  	insertionSort(array);
+	  	quickSort(array, 0, array.size());
 	  	array.play();
     }
 
@@ -148,7 +148,9 @@ public class Main extends Application {
 		ElementContainer pivot = array.get(a); // set pivot to first item
 		int j = a; // current index to swap for items less than the pivot
 		int pivotIdx = a;
+		Label marker1 = array.mark(pivotIdx, "blue");
 		for (int i = a + 1; i < b; i++) {
+			Label tempLabel = array.mark(i, "red");
 			if (array.get(i).compareTo(pivot) <= 0) {
 				// track pivot index
 				if (pivotIdx == j) {
@@ -158,10 +160,14 @@ public class Main extends Application {
 				array.swap(i, j);
 				j++;
 			}
+			array.unmark(tempLabel);
 
 		}
 		// return pivot to correct location
+		Label marker2 = array.mark(j, "red");
 		array.swap(pivotIdx, j);
+		array.unmark(marker2);
+		array.unmark(marker1);
 		return j;
 	}
 
