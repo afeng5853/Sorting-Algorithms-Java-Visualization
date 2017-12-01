@@ -37,10 +37,6 @@ public class Main extends Application {
 	    ElementContainer eight = new ElementContainer(hbox, 0, 0, 200, "boardroom", 10);
 	    ElementContainer nine = new ElementContainer(hbox, 0, 0, 200, "ghostly", 10);
 
-
-
-
-
 	    ArrayList<ElementContainer> eleC = new ArrayList<>();
 	    eleC.add(one);
 	    eleC.add(two);
@@ -52,10 +48,13 @@ public class Main extends Application {
 	    eleC.add(eight);
 	    eleC.add(nine);
 	    ArrayGUI array = new ArrayGUI(eleC);
+
 	    btnBox.addButton(array, "Pause");
 	    btnBox.addButton(array, "Resume");
 	    btnBox.addButton(array, "Forward");
 	    btnBox.addButton(array, "Reverse");
+	    btnBox.addButton(array, "Faster");
+	    btnBox.addButton(array, "Slower");
 	    border.setBottom(buttons);
 
 	    //array.getChildren().add(pane);

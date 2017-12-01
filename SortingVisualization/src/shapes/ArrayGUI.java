@@ -161,6 +161,14 @@ public class ArrayGUI {
 		this.rate = -1;
 	}
 
+	public void faster() {
+		this.currentTimeline.setRate(this.rate += 0.05);
+	}
+
+	public void slower() {
+		this.currentTimeline.setRate(this.rate -= 0.05);
+	}
+
 	public void swap(int i, int j) {
 		if (firstSwap) {
 			initCoordinates();

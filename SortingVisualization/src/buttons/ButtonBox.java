@@ -25,6 +25,10 @@ public class ButtonBox {
 			btn.setOnAction(e -> array.forward());
 		} else if (name.equals("Reverse")) {
 			btn.setOnAction(e -> array.reverse());
+		} else if (name.equals("Slower")) {
+			btn.setOnAction(e -> array.slower());
+		} else if (name.equals("Faster")) {
+			btn.setOnAction(e -> array.faster());
 		}
 
 		this.parent.getChildren().add(btn);
