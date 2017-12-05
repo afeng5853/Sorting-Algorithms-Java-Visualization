@@ -2,6 +2,7 @@ package application;
 
 import java.util.ArrayList;
 
+import barcharts.BarChartBox;
 import buttons.ButtonBox;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -22,12 +23,12 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-    	HBox buttons = new HBox();
-    	BorderPane border = new BorderPane();
-    	HBox hbox = new HBox();
-    	
-    	ButtonBox btnBox = new ButtonBox(buttons);
-    	buttons.getStyleClass().add("buttons");
+	    	HBox buttons = new HBox();
+	    	BorderPane border = new BorderPane();
+	    	HBox hbox = new HBox();
+	    	
+	    	ButtonBox btnBox = new ButtonBox(buttons);
+	    	buttons.getStyleClass().add("buttons");
 
 	    hbox.getStyleClass().add("array");
 	    border.setTop(hbox);
@@ -53,7 +54,8 @@ public class Main extends Application {
 	    eleC.add(eight);
 	    eleC.add(nine);
 	    ArrayGUI array = new ArrayGUI(eleC);
-
+	    ArrayGUI temp = array;
+	    
 	    btnBox.addButton(array, "Pause");
 	    btnBox.addButton(array, "Resume");
 	    btnBox.addButton(array, "Forward");
@@ -62,21 +64,17 @@ public class Main extends Application {
 	    btnBox.addButton(array, "Slower");
 	    border.setBottom(buttons);
 	    
-    	//bar chart
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
+	    //bar chart
+	    
+       CategoryAxis xAxis = new CategoryAxis();
+       NumberAxis yAxis = new NumberAxis();
        xAxis.setLabel("Sort Type");       
-       yAxis.setLabel("Time (s)");
+       yAxis.setLabel("Time (ns)");
        BarChart bc = new BarChart(xAxis, yAxis);
        bc.setTitle("Run Time");
-
-       //Prepare XYChart.Series objects by setting data       
-       XYChart.Series<String, Number> series1 = new XYChart.Series<>();
-       series1.setName("Merge Sort");
-       series1.getData().add(new XYChart.Data<>("Merge Sort", array.getTimelineDuration()));
-       bc.getData().add(series1);
-	    border.setRight(bc);
        
+       BarChartBox chart = new BarChartBox(bc);
+      
 	    //array.getChildren().add(pane);
 	    Scene scene = new Scene(border, 1280, 720);
 	    array.setScene(scene);
@@ -85,9 +83,28 @@ public class Main extends Application {
 	  	stage.setResizable(false);
 	  	//stage.setMaximized(true);
 	  	stage.show();
+	  	stage.setTitle("Sorting Visualization");
 	  	quickSort(array, 0, array.size());
 	  	System.out.println(array.getTimelineDuration());
 	  	array.play();
+	  	chart.addData(array, "Quick Sort", array.getTimelineDuration());
+	    
+	  	//array.resetTimelines();
+	  	bubbleSort(array);
+	  	System.out.println(array.getTimelineDuration());
+	    chart.addData(array, "Bubble Sort", array.getTimelineDuration());
+
+	  	//array.resetTimelines();
+	    selectionSort(array);
+	  	System.out.println(array.getTimelineDuration());
+	    chart.addData(array, "Selection Sort", array.getTimelineDuration());
+
+	  	//array.resetTimelines();
+	    insertionSort(array);
+	  	System.out.println(array.getTimelineDuration());
+	    chart.addData(array, "Insertion Sort", array.getTimelineDuration());
+	    
+	    border.setCenter(bc);
     }
 
     public static void bubbleSort(ArrayGUI array) {
