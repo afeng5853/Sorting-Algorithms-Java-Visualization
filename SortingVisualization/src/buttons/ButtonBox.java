@@ -30,6 +30,32 @@ public class ButtonBox {
 		} else if (name.equals("Faster")) {
 			btn.setOnAction(e -> array.faster());
 		}
+		//else if(name.equals("Merge Sort")) {
+		//	btn.setOnAction(Main.mergeSort(array));
+		//}
+		else if(name.equals("Quick Sort")) {
+			btn.setOnAction((event) -> {
+			  	array.resetTimelines();
+			  	array.play();
+				Main.quickSort(array, 0, array.size());
+			  	System.out.println(array.getTimelineDuration());
+			});
+		}
+		else if(name.equals("Bubble Sort")) {
+			btn.setOnAction((event) -> {
+				Main.bubbleSort(array);
+			});
+		}
+		else if(name.equals("Insertion Sort")) {
+			btn.setOnAction((event) -> {
+				Main.insertionSort(array);
+			});
+		}
+		else if(name.equals("Selection Sort")) {
+			btn.setOnAction((event) -> {
+				Main.selectionSort(array);
+			});
+		}
 		this.parent.getChildren().add(btn);
 	}
 

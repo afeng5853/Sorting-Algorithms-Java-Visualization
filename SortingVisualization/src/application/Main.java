@@ -62,6 +62,12 @@ public class Main extends Application {
 	    btnBox.addButton(array, "Reverse");
 	    btnBox.addButton(array, "Faster");
 	    btnBox.addButton(array, "Slower");
+	    btnBox.addButton(array, "Merge Sort");
+	    btnBox.addButton(array, "Quick Sort");
+	    btnBox.addButton(array, "Selection Sort");
+	    btnBox.addButton(array, "Bubble Sort");
+	    btnBox.addButton(array, "Insertion Sort");
+
 	    border.setBottom(buttons);
 	    
 	    //bar chart
@@ -89,17 +95,14 @@ public class Main extends Application {
 	  	array.play();
 	  	chart.addData(array, "Quick Sort", array.getTimelineDuration());
 	    
-	  	//array.resetTimelines();
 	  	bubbleSort(array);
 	  	System.out.println(array.getTimelineDuration());
 	    chart.addData(array, "Bubble Sort", array.getTimelineDuration());
 
-	  	//array.resetTimelines();
 	    selectionSort(array);
 	  	System.out.println(array.getTimelineDuration());
 	    chart.addData(array, "Selection Sort", array.getTimelineDuration());
 
-	  	//array.resetTimelines();
 	    insertionSort(array);
 	  	System.out.println(array.getTimelineDuration());
 	    chart.addData(array, "Insertion Sort", array.getTimelineDuration());
