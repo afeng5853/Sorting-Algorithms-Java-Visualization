@@ -221,5 +221,7 @@ public class Main extends Application {
 		}
 	}
 
-
+	public static void reset(ArrayGUI initial, ArrayGUI replace) {
+		initial = replace;
+	}
 }

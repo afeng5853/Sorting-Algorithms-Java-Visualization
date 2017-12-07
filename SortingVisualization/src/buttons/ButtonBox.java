@@ -16,6 +16,7 @@ public class ButtonBox {
 
 	public void addButton(ArrayGUI array, String name) {
 		//testing only
+		ArrayGUI temp = array;
 		Button btn = new Button(name);
 		if (name.equals("Pause")) {
 			btn.setOnAction(e -> array.pause());
@@ -44,16 +45,24 @@ public class ButtonBox {
 		else if(name.equals("Bubble Sort")) {
 			btn.setOnAction((event) -> {
 				Main.bubbleSort(array);
+				Main.reset(array, temp);
+				System.out.println(array.toString());
+
 			});
 		}
 		else if(name.equals("Insertion Sort")) {
 			btn.setOnAction((event) -> {
 				Main.insertionSort(array);
+				Main.reset(array, temp);
+				System.out.println(array.toString());
+
 			});
 		}
 		else if(name.equals("Selection Sort")) {
 			btn.setOnAction((event) -> {
 				Main.selectionSort(array);
+				Main.reset(array, temp);
+				System.out.println(array.toString());
 			});
 		}
 		this.parent.getChildren().add(btn);
