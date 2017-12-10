@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import barcharts.BarChartBox;
 import buttons.ButtonBox;
@@ -12,6 +13,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,14 +21,29 @@ import shapes.ArrayGUI;
 import shapes.ElementContainer;
 
 public class Main extends Application {
-
+	//private Scene scene;
+	//private static Scene scene2;
+	//private Scene scene3;
+	//private Scene scene4;
+   // private FlowPane pane1, pane2;
+  // private static Stage thestage;
+    
     @Override
     public void start(Stage stage) throws Exception {
-
+    	/*
+    		thestage =stage;
+    		 pane1=new FlowPane();
+    	     pane2=new FlowPane();
+    	     pane1.setVgap(10);
+    	     pane2.setVgap(10);
+    	     scene2 = new Scene(pane1, 1280,720);
+    		 scene3 = new Scene(pane2, 1280,720);
+    		 pane1.getChildren().addAll(border.getChildren());
+    		 */
 	    	HBox buttons = new HBox();
 	    	BorderPane border = new BorderPane();
 	    	HBox hbox = new HBox();
-	    	
+
 	    	ButtonBox btnBox = new ButtonBox(buttons);
 	    	buttons.getStyleClass().add("buttons");
 
@@ -53,33 +70,33 @@ public class Main extends Application {
 	    eleC.add(seven);
 	    eleC.add(eight);
 	    eleC.add(nine);
-	    ArrayGUI array = new ArrayGUI(eleC);
-	    ArrayGUI temp = array;
 	    
+	    ArrayGUI array = new ArrayGUI(eleC);
+	    ArrayGUI clone = reset(array);
+
 	    btnBox.addButton(array, "Pause");
 	    btnBox.addButton(array, "Resume");
 	    btnBox.addButton(array, "Forward");
 	    btnBox.addButton(array, "Reverse");
 	    btnBox.addButton(array, "Faster");
 	    btnBox.addButton(array, "Slower");
-	    btnBox.addButton(array, "Merge Sort");
-	    btnBox.addButton(array, "Quick Sort");
-	    btnBox.addButton(array, "Selection Sort");
-	    btnBox.addButton(array, "Bubble Sort");
-	    btnBox.addButton(array, "Insertion Sort");
+	    btnBox.addButton(clone, "Merge Sort");
+	    btnBox.addButton(clone, "Quick Sort");
+	    btnBox.addButton(clone, "Selection Sort");
+	    btnBox.addButton(clone, "Bubble Sort");
+	    btnBox.addButton(clone, "Insertion Sort");
 
 	    border.setBottom(buttons);
 	    
 	    //bar chart
 	    
-       CategoryAxis xAxis = new CategoryAxis();
-       NumberAxis yAxis = new NumberAxis();
-       xAxis.setLabel("Sort Type");       
-       yAxis.setLabel("Time (ns)");
-       BarChart bc = new BarChart(xAxis, yAxis);
-       bc.setTitle("Run Time");
-       
-       BarChartBox chart = new BarChartBox(bc);
+	   CategoryAxis xAxis = new CategoryAxis();
+	   NumberAxis yAxis = new NumberAxis();
+	   xAxis.setLabel("Sort Type");       
+	   yAxis.setLabel("Time (ns)");
+	   BarChart bc = new BarChart(xAxis, yAxis);
+	   bc.setTitle("Run Time");
+	   BarChartBox chart = new BarChartBox(bc);
       
 	    //array.getChildren().add(pane);
 	    Scene scene = new Scene(border, 1280, 720);
@@ -90,26 +107,46 @@ public class Main extends Application {
 	  	//stage.setMaximized(true);
 	  	stage.show();
 	  	stage.setTitle("Sorting Visualization");
+	 
 	  	quickSort(array, 0, array.size());
 	  	System.out.println(array.getTimelineDuration());
 	  	array.play();
 	  	chart.addData(array, "Quick Sort", array.getTimelineDuration());
 	    
+	  	array = reset(clone);
 	  	bubbleSort(array);
 	  	System.out.println(array.getTimelineDuration());
 	    chart.addData(array, "Bubble Sort", array.getTimelineDuration());
 
-	    selectionSort(array);
+	  	array = reset(clone);
+	    selectionSort(array);		
 	  	System.out.println(array.getTimelineDuration());
 	    chart.addData(array, "Selection Sort", array.getTimelineDuration());
-
+		
+	  	array = reset(clone);
 	    insertionSort(array);
 	  	System.out.println(array.getTimelineDuration());
 	    chart.addData(array, "Insertion Sort", array.getTimelineDuration());
 	    
 	    border.setCenter(bc);
+		System.out.println(clone);
     }
-
+    /*
+    public void setPrimaryStage(Stage stage) {
+      this.thestage = stage;
+    }
+    
+    public void setPrimaryScene(Scene scene) {
+        this.scene2 = scene;
+      }
+    
+    public static Scene getScene() {
+    	   return scene2;
+    	} 
+    public static Stage getStage() {
+    	   return thestage;
+    	} 
+    */
     public static void bubbleSort(ArrayGUI array) {
     	boolean swapped = true;
 	    while (swapped) {
@@ -221,7 +258,9 @@ public class Main extends Application {
 		}
 	}
 
-	public static void reset(ArrayGUI initial, ArrayGUI replace) {
-		initial = replace;
+	public static ArrayGUI reset(ArrayGUI array){
+	    ArrayList<ElementContainer> temp = (ArrayList<ElementContainer>) array.copyArray();
+	    ArrayGUI clone = new ArrayGUI(temp);
+	    return clone;
 	}
 }

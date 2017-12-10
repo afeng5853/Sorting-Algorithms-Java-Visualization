@@ -33,6 +33,19 @@ public class ArrayGUI {
 
 	}
 
+	
+	public void setArray(ArrayList<ElementContainer> array) {
+		 this.array = array;
+		 }
+	
+	public ArrayList<ElementContainer> copyArray() {
+		ArrayList<ElementContainer> copy = new ArrayList<>();
+		for (ElementContainer ele: this.array) {
+			copy.add(ele);
+		}	    
+		return copy;
+	}
+	
 	private void initCoordinates() {
 		for (int i = 0; i < array.size(); i++) {
 			Node node = this.getArray().get(i).getEleContainerPanel();

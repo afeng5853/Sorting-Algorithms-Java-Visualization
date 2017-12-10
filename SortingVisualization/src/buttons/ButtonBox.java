@@ -5,10 +5,16 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import shapes.ArrayGUI;
+import shapes.ElementContainer;
+import java.util.ArrayList;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+
 import application.Main;
 
 public class ButtonBox {
 	private HBox parent;
+	private ArrayGUI copy;
 
 	public ButtonBox(HBox parent) {
 		this.parent = parent;
@@ -16,7 +22,8 @@ public class ButtonBox {
 
 	public void addButton(ArrayGUI array, String name) {
 		//testing only
-		ArrayGUI temp = array;
+		//Scene scene = Main.getScene();
+		//Stage primStage = Main.getStage();
 		Button btn = new Button(name);
 		if (name.equals("Pause")) {
 			btn.setOnAction(e -> array.pause());
@@ -36,33 +43,39 @@ public class ButtonBox {
 		//}
 		else if(name.equals("Quick Sort")) {
 			btn.setOnAction((event) -> {
-			  	array.resetTimelines();
-			  	array.play();
-				Main.quickSort(array, 0, array.size());
-			  	System.out.println(array.getTimelineDuration());
+				//primStage.setScene(scene);
+				copy = Main.reset(array);
+				copy.resetTimelines();
+				copy.play();
+				Main.quickSort(copy, 0, copy.size());
+				System.out.println(copy.getTimelineDuration());
 			});
 		}
 		else if(name.equals("Bubble Sort")) {
 			btn.setOnAction((event) -> {
-				Main.bubbleSort(array);
-				Main.reset(array, temp);
-				System.out.println(array.toString());
-
+				copy = Main.reset(array);
+				copy.resetTimelines();
+				copy.play();
+				Main.bubbleSort(copy);
+				System.out.println(copy.getTimelineDuration());			
 			});
 		}
 		else if(name.equals("Insertion Sort")) {
 			btn.setOnAction((event) -> {
-				Main.insertionSort(array);
-				Main.reset(array, temp);
-				System.out.println(array.toString());
-
+				copy = Main.reset(array);
+				copy.resetTimelines();
+				copy.play();
+				Main.insertionSort(copy);
+				System.out.println(copy.getTimelineDuration());
 			});
 		}
 		else if(name.equals("Selection Sort")) {
 			btn.setOnAction((event) -> {
-				Main.selectionSort(array);
-				Main.reset(array, temp);
-				System.out.println(array.toString());
+				copy = Main.reset(array);
+				copy.resetTimelines();
+				copy.play();
+				Main.selectionSort(copy);
+				System.out.println(copy.getTimelineDuration());
 			});
 		}
 		this.parent.getChildren().add(btn);
