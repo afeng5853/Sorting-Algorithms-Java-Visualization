@@ -14,7 +14,6 @@ import application.Main;
 
 public class ButtonBox {
 	private HBox parent;
-	private ArrayGUI copy;
 
 	public ButtonBox(HBox parent) {
 		this.parent = parent;
@@ -43,39 +42,38 @@ public class ButtonBox {
 		//}
 		else if(name.equals("Quick Sort")) {
 			btn.setOnAction((event) -> {
-				//primStage.setScene(scene);
-				copy = Main.reset(array);
-				copy.resetTimelines();
-				copy.play();
-				Main.quickSort(copy, 0, copy.size());
-				System.out.println(copy.getTimelineDuration());
+				//primStage.setScene(scene)
+				array.resetTimelines();
+				Main.quickSort(array, 0, array.size());
+				Main.addTime("Quick Sort", array.getTimelineDuration());
+				array.play();
 			});
 		}
 		else if(name.equals("Bubble Sort")) {
 			btn.setOnAction((event) -> {
-				copy = Main.reset(array);
-				copy.resetTimelines();
-				copy.play();
-				Main.bubbleSort(copy);
-				System.out.println(copy.getTimelineDuration());			
+				array.resetTimelines();
+				Main.bubbleSort(array);
+				Main.addTime("Bubble Sort", array.getTimelineDuration());
+				array.play();
+				//System.out.println(array.getTimelineDuration());			
 			});
 		}
 		else if(name.equals("Insertion Sort")) {
 			btn.setOnAction((event) -> {
-				copy = Main.reset(array);
-				copy.resetTimelines();
-				copy.play();
-				Main.insertionSort(copy);
-				System.out.println(copy.getTimelineDuration());
+				array.resetTimelines();
+				Main.insertionSort(array);
+				Main.addTime("Insertion Sort", array.getTimelineDuration());
+				array.play();
+				//System.out.println(array.getTimelineDuration());
 			});
 		}
 		else if(name.equals("Selection Sort")) {
 			btn.setOnAction((event) -> {
-				copy = Main.reset(array);
-				copy.resetTimelines();
-				copy.play();
-				Main.selectionSort(copy);
-				System.out.println(copy.getTimelineDuration());
+				array.resetTimelines();
+				Main.selectionSort(array);
+				Main.addTime("Selection Sort", array.getTimelineDuration());
+				array.play();
+				//System.out.println(array.getTimelineDuration());
 			});
 		}
 		this.parent.getChildren().add(btn);

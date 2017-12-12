@@ -16,7 +16,7 @@ public class BarChartBox {
 		this.parent = parent;
 	}
 
-	public void addData(ArrayGUI array, String name, double runTime) {
+	public void addData(String name, double runTime) {
 		
        //Prepare XYChart.Series objects by setting data       
        XYChart.Series<String, Number> series = new XYChart.Series<>();

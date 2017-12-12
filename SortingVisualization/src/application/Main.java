@@ -27,6 +27,7 @@ public class Main extends Application {
 	//private Scene scene4;
    // private FlowPane pane1, pane2;
   // private static Stage thestage;
+	private static BarChartBox chart;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -72,7 +73,6 @@ public class Main extends Application {
 	    eleC.add(nine);
 	    
 	    ArrayGUI array = new ArrayGUI(eleC);
-	    ArrayGUI clone = reset(array);
 
 	    btnBox.addButton(array, "Pause");
 	    btnBox.addButton(array, "Resume");
@@ -80,11 +80,11 @@ public class Main extends Application {
 	    btnBox.addButton(array, "Reverse");
 	    btnBox.addButton(array, "Faster");
 	    btnBox.addButton(array, "Slower");
-	    btnBox.addButton(clone, "Merge Sort");
-	    btnBox.addButton(clone, "Quick Sort");
-	    btnBox.addButton(clone, "Selection Sort");
-	    btnBox.addButton(clone, "Bubble Sort");
-	    btnBox.addButton(clone, "Insertion Sort");
+	    btnBox.addButton(array, "Quick Sort");
+	    btnBox.addButton(array, "Selection Sort");
+	    btnBox.addButton(array, "Bubble Sort");
+	    btnBox.addButton(array, "Insertion Sort");
+	    btnBox.addButton(array, "Reset");
 
 	    border.setBottom(buttons);
 	    
@@ -96,7 +96,7 @@ public class Main extends Application {
 	   yAxis.setLabel("Time (ns)");
 	   BarChart bc = new BarChart(xAxis, yAxis);
 	   bc.setTitle("Run Time");
-	   BarChartBox chart = new BarChartBox(bc);
+	   chart = new BarChartBox(bc);
       
 	    //array.getChildren().add(pane);
 	    Scene scene = new Scene(border, 1280, 720);
@@ -108,11 +108,9 @@ public class Main extends Application {
 	  	stage.show();
 	  	stage.setTitle("Sorting Visualization");
 	 
-	  	quickSort(array, 0, array.size());
-	  	System.out.println(array.getTimelineDuration());
-	  	array.play();
-	  	chart.addData(array, "Quick Sort", array.getTimelineDuration());
-	    
+	  	//quickSort(array, 0, array.size());
+	  	//array.play();
+	    /*
 	  	array = reset(clone);
 	  	bubbleSort(array);
 	  	System.out.println(array.getTimelineDuration());
@@ -127,9 +125,8 @@ public class Main extends Application {
 	    insertionSort(array);
 	  	System.out.println(array.getTimelineDuration());
 	    chart.addData(array, "Insertion Sort", array.getTimelineDuration());
-	    
+	    */
 	    border.setCenter(bc);
-		System.out.println(clone);
     }
     /*
     public void setPrimaryStage(Stage stage) {
@@ -147,6 +144,11 @@ public class Main extends Application {
     	   return thestage;
     	} 
     */
+    
+    public static void addTime(String name, Double time) {
+    	chart.addData(name, time);
+    }
+    
     public static void bubbleSort(ArrayGUI array) {
     	boolean swapped = true;
 	    while (swapped) {
@@ -258,9 +260,4 @@ public class Main extends Application {
 		}
 	}
 
-	public static ArrayGUI reset(ArrayGUI array){
-	    ArrayList<ElementContainer> temp = (ArrayList<ElementContainer>) array.copyArray();
-	    ArrayGUI clone = new ArrayGUI(temp);
-	    return clone;
-	}
 }

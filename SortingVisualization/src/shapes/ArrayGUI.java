@@ -1,6 +1,7 @@
 package shapes;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.animation.KeyFrame;
@@ -23,6 +24,7 @@ public class ArrayGUI {
 	private ArrayList<double[]> coordinates;
 	private boolean firstSwap = true;
 	private Timeline currentTimeline;
+	private List<Label> marks;
 	private double rate = 1;
 
 	public ArrayGUI(ArrayList<ElementContainer> array) {
