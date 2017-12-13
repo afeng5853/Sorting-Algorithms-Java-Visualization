@@ -2,6 +2,7 @@ package shapes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.animation.KeyFrame;
@@ -12,6 +13,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 public class ArrayGUI {
@@ -26,13 +28,19 @@ public class ArrayGUI {
 	private Timeline currentTimeline;
 	private List<Label> marks;
 	private double rate = 1;
+	private HBox hbox;
 
-	public ArrayGUI(ArrayList<ElementContainer> array) {
+	public ArrayGUI(ArrayList<ElementContainer> array, HBox hbox) {
 		this.timelines = new ArrayList<Timeline>();
 		this.array = array;
 		this.coordinates = new ArrayList<>();
 		this.timelineIdx = new AtomicInteger();
-
+		this.marks = new ArrayList<>();
+		this.hbox = hbox;
+	}
+	
+	public ArrayList<Timeline> getTimelines() {
+		return timelines;
 	}
 
 	
@@ -239,11 +247,14 @@ public class ArrayGUI {
 		Label tempLabel = new Label();
 		tempLabel.setStyle("-fx-background-color:" + color + ";" +
 				"-fx-opacity: 0" + ";");
-
+		this.marks.add(tempLabel);
+		
+		
 		ElementContainer ec = this.get(i);
 		ObservableList<Node> childNodes = ec.getEleContainerPanel().getChildren();
 		childNodes.add(tempLabel);
 		Label label = (Label) ec.getEleContainerPanel().getChildren().get(0);
+		
 		tempLabel.prefWidthProperty().bind(label.prefWidthProperty());
 		Timeline tl = new Timeline(
 	            new KeyFrame(new Duration(1), new KeyValue(tempLabel.opacityProperty(), 0.7)));
@@ -251,6 +262,23 @@ public class ArrayGUI {
 		return tempLabel;
 	}
 
+	public void unmarkAll() {
+		for (int i = 0; i < this.array.size(); i++) {
+			Label currentMark;
+			ElementContainer ec = this.get(i);
+			if (ec.getEleContainerPanel().getChildren().size() > 1) {
+				currentMark = (Label) ec.getEleContainerPanel().getChildren().get(1);
+				Timeline tl = new Timeline(
+			            new KeyFrame(new Duration(1), new KeyValue(currentMark.opacityProperty(), 0)));
+				tl.setOnFinished(e -> {
+					ec.getEleContainerPanel().getChildren().remove(currentMark);
+				});
+				timelines.add(tl);
+			}
+		}
+		this.marks = new ArrayList<>();
+	}
+	
 	public void unmark(Label tempLabel) {
 		if (tempLabel == null) {
 			return;
@@ -277,6 +305,39 @@ public class ArrayGUI {
 	}
 
 	public void resetTimelines() {
+		timelineIdx = new AtomicInteger(0);
+		if (currentTimeline != null)
+			currentTimeline.stop();
 		this.timelines = new ArrayList<>();
 	}
+	
+	public void resetText() {
+		String[] text = new String[] {"estate", "defector", "actuality", "neurotic", "cholera", "feudal", "boardroom", "ghostly",
+				"corporative", "shcheglovsk", "kyphosis", "biocycle", "nondelivery", "airship", "syleus", "zosimus", "northeastward", "aghast"};
+		hbox.getChildren().clear();
+		Random r = new Random();
+		ElementContainer one = new ElementContainer(hbox, 0, 0, 200, text[r.nextInt(text.length)], 10);
+	    ElementContainer two = new ElementContainer(hbox, 0, 0, 200, text[r.nextInt(text.length)], 10);
+	    ElementContainer three = new ElementContainer(hbox, 0, 0, 200, text[r.nextInt(text.length)], 10);
+	    ElementContainer four = new ElementContainer(hbox, 0, 0, 200, text[r.nextInt(text.length)], 10);
+	    ElementContainer five = new ElementContainer(hbox, 0, 0, 200, text[r.nextInt(text.length)], 10);
+	    ElementContainer six = new ElementContainer(hbox, 0, 0, 200, text[r.nextInt(text.length)], 10);
+	    ElementContainer seven = new ElementContainer(hbox, 0, 0, 200, text[r.nextInt(text.length)], 10);
+	    ElementContainer eight = new ElementContainer(hbox, 0, 0, 200, text[r.nextInt(text.length)], 10);
+	    ElementContainer nine = new ElementContainer(hbox, 0, 0, 200, text[r.nextInt(text.length)], 10);
+
+	    ArrayList<ElementContainer> eleC = new ArrayList<>();
+	    eleC.add(one);
+	    eleC.add(two);
+	    eleC.add(three);
+	    eleC.add(four);
+	    eleC.add(five);
+	    eleC.add(six);
+	    eleC.add(seven);
+	    eleC.add(eight);
+	    eleC.add(nine);
+	    this.array = eleC;
+    	
+    	//ArrayList<ElementContainer> backend = arr.getArray();
+    }
 }

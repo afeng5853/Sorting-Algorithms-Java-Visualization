@@ -28,25 +28,15 @@ public class Main extends Application {
    // private FlowPane pane1, pane2;
   // private static Stage thestage;
 	private static BarChartBox chart;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-    	/*
-    		thestage =stage;
-    		 pane1=new FlowPane();
-    	     pane2=new FlowPane();
-    	     pane1.setVgap(10);
-    	     pane2.setVgap(10);
-    	     scene2 = new Scene(pane1, 1280,720);
-    		 scene3 = new Scene(pane2, 1280,720);
-    		 pane1.getChildren().addAll(border.getChildren());
-    		 */
-	    	HBox buttons = new HBox();
-	    	BorderPane border = new BorderPane();
-	    	HBox hbox = new HBox();
+    	HBox buttons = new HBox();
+    	BorderPane border = new BorderPane();
+    	HBox hbox = new HBox();
 
-	    	ButtonBox btnBox = new ButtonBox(buttons);
-	    	buttons.getStyleClass().add("buttons");
+    	ButtonBox btnBox = new ButtonBox(buttons);
+    	buttons.getStyleClass().add("buttons");
 
 	    hbox.getStyleClass().add("array");
 	    border.setTop(hbox);
@@ -72,7 +62,7 @@ public class Main extends Application {
 	    eleC.add(eight);
 	    eleC.add(nine);
 	    
-	    ArrayGUI array = new ArrayGUI(eleC);
+	    ArrayGUI array = new ArrayGUI(eleC, hbox);
 
 	    btnBox.addButton(array, "Pause");
 	    btnBox.addButton(array, "Resume");
@@ -80,11 +70,11 @@ public class Main extends Application {
 	    btnBox.addButton(array, "Reverse");
 	    btnBox.addButton(array, "Faster");
 	    btnBox.addButton(array, "Slower");
+	    btnBox.addButton(array, "Random Text");
 	    btnBox.addButton(array, "Quick Sort");
 	    btnBox.addButton(array, "Selection Sort");
 	    btnBox.addButton(array, "Bubble Sort");
 	    btnBox.addButton(array, "Insertion Sort");
-	    btnBox.addButton(array, "Reset");
 
 	    border.setBottom(buttons);
 	    
@@ -128,24 +118,9 @@ public class Main extends Application {
 	    */
 	    border.setCenter(bc);
     }
-    /*
-    public void setPrimaryStage(Stage stage) {
-      this.thestage = stage;
-    }
     
-    public void setPrimaryScene(Scene scene) {
-        this.scene2 = scene;
-      }
     
-    public static Scene getScene() {
-    	   return scene2;
-    	} 
-    public static Stage getStage() {
-    	   return thestage;
-    	} 
-    */
-    
-    public static void addTime(String name, Double time) {
+    public static void addTime(String name, long time) {
     	chart.addData(name, time);
     }
     
@@ -219,34 +194,23 @@ public class Main extends Application {
     }
 
     public static int partition(ArrayGUI array, int a, int b) {
-		// if list is empty
-		if (array.size() == 0) {
-			return -1;
-		}
-		ElementContainer pivot = array.get(a); // set pivot to first item
-		int j = a; // current index to swap for items less than the pivot
-		int pivotIdx = a;
-		Label marker1 = array.mark(pivotIdx, "blue");
-		for (int i = a + 1; i < b; i++) {
-			Label tempLabel = array.mark(i, "red");
-			if (array.get(i).compareTo(pivot) <= 0) {
-				// track pivot index
-				if (pivotIdx == j) {
-					pivotIdx = i;
-				}
-				// swap pivot to latest index in the small partition
+		ElementContainer pivot = array.get(b); // set pivot to last item
+		int i = a - 1;
+		Label marker1 = array.mark(b, "blue");
+		for (int j = a; j < b; j++) {
+			Label tempLabel = array.mark(j, "red");
+			if (array.get(j).compareTo(pivot) <= 0) {
+				i++;
 				array.swap(i, j);
-				j++;
 			}
 			array.unmark(tempLabel);
-
 		}
 		// return pivot to correct location
-		Label marker2 = array.mark(j, "red");
-		array.swap(pivotIdx, j);
+		Label marker2 = array.mark(i + 1, "red");
+		array.swap(b, i + 1);
 		array.unmark(marker2);
 		array.unmark(marker1);
-		return j;
+		return i+1;
 	}
 
 	public static void quickSort(ArrayGUI arr, int i, int j) {
@@ -255,7 +219,7 @@ public class Main extends Application {
 		}
 		else {
 			int pivotIdx = partition(arr, i, j);
-			quickSort(arr, i, pivotIdx);
+			quickSort(arr, i, pivotIdx - 1);
 			quickSort(arr, pivotIdx + 1, j);
 		}
 	}

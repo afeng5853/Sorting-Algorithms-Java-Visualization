@@ -121,6 +121,6 @@ public class ElementContainer implements Comparable{
 		if (!(o instanceof ElementContainer))
 			throw new ClassCastException("An ElementContainer object expected.");
 
-		return this.getText().compareTo(((ElementContainer) o).getText());
+		return this.label.getText().compareTo(((ElementContainer) o).label.getText());
 	}
 }
