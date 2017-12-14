@@ -109,6 +109,7 @@ public class Main extends Application {
      * @param array
      */
     public static void bubbleSort(ArrayGUI array) {
+    	array.unmark((array.mark(0, "white"))); // a hack to fix a part where it sometimes doesn't do the first mark
     	boolean swapped = true;
 	    while (swapped) {
 	       swapped = false;
@@ -158,6 +159,7 @@ public class Main extends Application {
      * @param array
      */
     public static void selectionSort(ArrayGUI array) {
+    	array.unmark((array.mark(0, "white"))); // a hack to fix a part where it sometimes doesn't do the first mark
 		for (int i = 0; i < array.size() - 1; i++) {
 			Label tempLabel = array.mark(i, "red");
 			int minIdx = min(array, i, array.size());
@@ -171,6 +173,7 @@ public class Main extends Application {
      * @param array
      */
     public static void insertionSort(ArrayGUI array) {
+    	array.unmark((array.mark(0, "white"))); // a hack to fix a part where it sometimes doesn't do the first mark
 		for (int i = 1; i < array.size(); i++) {
 			Label tempLabel = array.mark(i, "red");
 			int j = i-1;
@@ -206,6 +209,7 @@ public class Main extends Application {
     public static int partition(ArrayGUI array, int a, int b) {
 		ElementContainer pivot = array.get(b); // set pivot to last item
 		int i = a - 1;
+		array.unmark((array.mark(b, "white"))); // a hack to fix a part where it sometimes doesn't do the first mark
 		Label marker1 = array.mark(b, "blue");
 		for (int j = a; j < b; j++) {
 			Label tempLabel = array.mark(j, "red");
@@ -219,6 +223,7 @@ public class Main extends Application {
 		Label marker2 = array.mark(i + 1, "red");
 		array.swap(b, i + 1);
 		array.unmark(marker2);
+		//array.unmark(marker3);
 		array.unmark(marker1);
 		return i+1;
 	}

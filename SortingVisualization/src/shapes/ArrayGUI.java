@@ -39,7 +39,7 @@ public class ArrayGUI {
 		this.timelines = new ArrayList<Timeline>();
 		this.array = array;
 		this.coordinates = new ArrayList<>();
-		this.timelineIdx = new AtomicInteger();
+		this.timelineIdx = new AtomicInteger(0);
 		this.marks = new ArrayList<>();
 		this.hbox = hbox;
 	}
@@ -186,7 +186,8 @@ public class ArrayGUI {
 	public void play() {
 		// if index is out of bounds on the left, do nothing
 		if (timelineIdx.get() < 0) {
-			return;
+			this.rate = 1;
+			timelineIdx.set(0);
 		}
 		// if the index is at the end, just play instead of going to the next
 		if (timelineIdx.get() == timelines.size() - 2) {
