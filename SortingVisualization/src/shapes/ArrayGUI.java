@@ -16,6 +16,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
+/**
+ * Class used to control the array visualization
+ * @author alex
+ *
+ */
 public class ArrayGUI {
 	private Scene scene;
 	private static final int X = 0;
@@ -56,6 +61,9 @@ public class ArrayGUI {
 		return copy;
 	}
 	
+	/**
+	 * initializes the coordinates of each elementcontainer
+	 */
 	private void initCoordinates() {
 		for (int i = 0; i < array.size(); i++) {
 			Node node = this.getArray().get(i).getEleContainerPanel();
@@ -63,12 +71,12 @@ public class ArrayGUI {
 		}
 	}
 
-	private void printCoords() {
-		for (double[] coord : coordinates) {
-			System.out.print("[" + coord[X] + " " + coord[Y] + "] ");
-		}
-	}
-
+	/**
+	 * translates backend coordinates
+	 * @param i index
+	 * @param x
+	 * @param y
+	 */
 	private void translateCoord(int i, double x, double y) {
 		double[] currentCoord = coordinates.get(i);
 		currentCoord[X] += x;
@@ -84,6 +92,13 @@ public class ArrayGUI {
 		this.scene = scene;
 	}
 
+	/**
+	 * front end moving of a node and back end updating
+	 * @param timeline
+	 * @param idx
+	 * @param node
+	 * @param duration
+	 */
 	private void move(Timeline timeline, int idx, Node node, int duration) {
 		double[] origC = getCoord(node);
 		double[] trueC = coordinates.get(idx);
@@ -97,19 +112,25 @@ public class ArrayGUI {
 		);
 	}
 
-
-	private void moveToCoord(Timeline timeline, int i, int j, Node node, int duration) {
-
-	}
-
+	/**
+	 * bring out animation and back end updating
+	 * @param timeline
+	 * @param idx
+	 * @param duration
+	 */
 	private void bringOut(Timeline timeline, int idx, int duration) {
 		double translateY = this.scene == null ? 100 : this.scene.getHeight() * 0.1;
 		Node node = this.getArray().get(idx).getEleContainerPanel();
-		//double translateX = coordinates.get(idx)[X] - getCoord(node)[X];
 		translateCoord(idx, 0, translateY);
 		move(timeline, idx, node, duration);
 	}
 
+	/**
+	 * bring in animation and back end updating
+	 * @param timeline
+	 * @param idx
+	 * @param duration
+	 */
 	private void bringIn(Timeline timeline, int idx, int duration) {
 		double translateY = this.scene == null ? 100 : this.scene.getHeight() * 0.1;
 		Node node = this.getArray().get(idx).getEleContainerPanel();
@@ -118,6 +139,11 @@ public class ArrayGUI {
 		move(timeline, idx, node, duration);
 	}
 
+	/**
+	 * get the coordinate of a node
+	 * @param node
+	 * @return
+	 */
 	private double[] getCoord(Node node) {
 		Bounds bbInfo = node.localToScreen(node.getBoundsInLocal());
 		double x = bbInfo.getMinX();
@@ -125,6 +151,13 @@ public class ArrayGUI {
 		return new double[] {x, y};
 	}
 
+	/**
+	 * plays the animation to switch positions of two nodes
+	 * @param timeline
+	 * @param i idx of node 1
+	 * @param j idx of node 2
+	 * @param duration animation duration
+	 */
 	private void switchPos(Timeline timeline, int i, int j, int duration) {
 		Node node1 = this.getArray().get(i).getEleContainerPanel();
 		Node node2 = this.getArray().get(j).getEleContainerPanel();
@@ -147,8 +180,19 @@ public class ArrayGUI {
 		return build.toString();
 	}
 
+	/**
+	 * plays all of the animations stored
+	 */
 	public void play() {
-		if (timelineIdx.get() < 0 || timelineIdx.get() >= timelines.size()) {
+		// if index is out of bounds on the left, do nothing
+		if (timelineIdx.get() < 0) {
+			return;
+		}
+		// if the index is at the end, just play instead of going to the next
+		if (timelineIdx.get() == timelines.size() - 2) {
+			Timeline currentT = timelines.get(timelineIdx.get());
+			currentT.play();
+			timelines.get(timelineIdx.incrementAndGet()).play();
 			return;
 		}
 		Timeline currentT = timelines.get(timelineIdx.get());
@@ -187,11 +231,20 @@ public class ArrayGUI {
 	public void faster() {
 		this.currentTimeline.setRate(this.rate += 0.05);
 	}
+	
+	public void skip() {
+		this.rate = 10000;
+	}
 
 	public void slower() {
 		this.currentTimeline.setRate(this.rate -= 0.05);
 	}
 
+	/**
+	 * adds bringOut, switchPos, bringIn animations to swap two elements
+	 * @param i idx of node 1
+	 * @param j idx of node 2
+	 */
 	public void swap(int i, int j) {
 		if (firstSwap) {
 			initCoordinates();
@@ -207,18 +260,7 @@ public class ArrayGUI {
 		bringIn(timeline, i, 600);
 		bringIn(timeline, j, 600);
 		swapBackEnd(i, j);
-		/*
-		Pane node1 = this.getArray().get(i).getEleContainerPanel();
-		Pane node2 = this.getArray().get(j).getEleContainerPanel();
-		timeline.getKeyFrames().add(
-				new KeyFrame(new Duration(2000),
-
-						new KeyValue(node2.layoutXProperty(), node2.getLayoutX() + node2.getTranslateX()),
-						new KeyValue(node2.layoutYProperty(), node2.getLayoutY() + node2.getTranslateY())
-				)
-		);*/
 		timelines.add(timeline);
-		//this.timeline.setOnFinished(e -> reset());
 	}
 
 	public ElementContainer get(int i) {
@@ -229,6 +271,11 @@ public class ArrayGUI {
 		return this.array.size();
 	}
 
+	/**
+	 * swap back end data
+	 * @param i idx of node 1
+	 * @param j idx of node 2
+	 */
 	private void swapBackEnd(int i, int j) {
 		ElementContainer temp = array.get(i);
 		array.set(i, array.get(j));
@@ -243,6 +290,12 @@ public class ArrayGUI {
 		return array;
 	}
 
+	/**
+	 * colors a node
+	 * @param i idx
+	 * @param color
+	 * @return the label used to color
+	 */
 	public Label mark(int i, String color) {
 		Label tempLabel = new Label();
 		tempLabel.setStyle("-fx-background-color:" + color + ";" +
@@ -262,6 +315,9 @@ public class ArrayGUI {
 		return tempLabel;
 	}
 
+	/**
+	 * removes all labels (markers)
+	 */
 	public void unmarkAll() {
 		for (int i = 0; i < this.array.size(); i++) {
 			Label currentMark;
@@ -279,6 +335,10 @@ public class ArrayGUI {
 		this.marks = new ArrayList<>();
 	}
 	
+	/**
+	 * removes a label
+	 * @param tempLabel
+	 */
 	public void unmark(Label tempLabel) {
 		if (tempLabel == null) {
 			return;
@@ -288,6 +348,10 @@ public class ArrayGUI {
 		timelines.add(tl);
 	}
 
+	/**
+	 * remove a label at index
+	 * @param i
+	 */
 	public void unmark(int i) {
 		ElementContainer ec = this.get(i);
 		Label tempLabel = (Label) ec.getEleContainerPanel().getChildren().get(1);
@@ -296,6 +360,9 @@ public class ArrayGUI {
 		timelines.add(tl);
 	}
 
+	/**
+	 * @return how long the animation is
+	 */
 	public double getTimelineDuration() {
 		double sum = 0;
 		for (Timeline t : this.timelines) {
@@ -304,6 +371,9 @@ public class ArrayGUI {
 		return sum;
 	}
 
+	/**
+	 * reinitializes timelines array
+	 */
 	public void resetTimelines() {
 		timelineIdx = new AtomicInteger(0);
 		if (currentTimeline != null)
@@ -311,6 +381,9 @@ public class ArrayGUI {
 		this.timelines = new ArrayList<>();
 	}
 	
+	/**
+	 * generates random text for elmenets
+	 */
 	public void resetText() {
 		String[] text = new String[] {"estate", "defector", "actuality", "neurotic", "cholera", "feudal", "boardroom", "ghostly",
 				"corporative", "shcheglovsk", "kyphosis", "biocycle", "nondelivery", "airship", "syleus", "zosimus", "northeastward", "aghast"};
@@ -338,6 +411,5 @@ public class ArrayGUI {
 	    eleC.add(nine);
 	    this.array = eleC;
     	
-    	//ArrayList<ElementContainer> backend = arr.getArray();
     }
 }
